@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Laser camera</title>
+<script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<script>
+"use strict";
+var cnt=0;
+function updateImage(){
+	document.getElementById("mjpeg_dest").src = "im"+cnt.toString()+".jpg";
+	cnt++;
+}
+
+$(document).ready(function(){
+
+	$("#mjpeg_dest").click(function(e){
+		var offset_t = $(this).offset().top - $(window).scrollTop();
+		var offset_l = $(this).offset().left - $(window).scrollLeft();
+		var left = Math.round( (e.clientX - offset_l) );
+    		var top = Math.round( (e.clientY - offset_t) );
+
+		$.ajax({
+			type: "POST",
+			data: {left:left, top:top},
+			url: "click"
+		});
+	});
+});
+
+
+</script>
+</head>
+
+<body>
+<div>
+<img id="mjpeg_dest" src="im.jpg" onload="updateImage()">
+</div>
+
+</body>
+
+</html>
